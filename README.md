@@ -26,6 +26,21 @@
    
 > if you are not sure how to load it into chrome, google it. 
 
+### Run locally 
+
+Here's how to load your extension locally:
+
+1. Open Chrome Extensions page: 
+•  Go to chrome://extensions/ in your Chrome browser
+•  Or click the three dots menu → More tools → Extensions
+2. Enable Developer mode:
+•  Toggle the "Developer mode" switch in the top right corner
+3. Load your extension:
+•  Click "Load unpacked" button
+•  Navigate to your extension directory (/Users/hirndorf/code/projects/chrome-extension)
+•  Select the folder containing your manifest.json file
+4. Your extension will now be installed locally and appear in your extensions list
+
 ## 📖 Usage
 
 > as every other website-blocker
