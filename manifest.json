@@ -24,7 +24,7 @@
     "tabs",
     "activeTab",
     "webRequest",
-    "webRequestBlocking",
+    "webNavigation",
     "contextMenus",
     "alarms",
     "notifications",

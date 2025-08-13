@@ -122,65 +122,58 @@ async function setupCleanupAlarm() {
 }
 
 /**
- * Handle web requests to block URLs
+ * Handle navigation events to check for blocked URLs
+ * Since webRequestBlocking is restricted in MV3, we use navigation API
  */
-chrome.webRequest.onBeforeRequest.addListener(
-  async details => {
-    try {
-      // Only process main frame requests (page navigation)
-      if (details.type !== 'main_frame') {
-        return { cancel: false };
-      }
-
-      const url = new URL(details.url);
-      const requestDomain = normalizeDomain(url.hostname);
-
-      console.log('Checking request for domain:', requestDomain);
-
-      // Get blocked domains
-      const [blockedDomains] = await Promise.all([getBlockedDomains()]);
-
-      // Check if domain matches any blocked domain
-      const matchingBlockedDomain = findMatchingBlockedDomain(
-        requestDomain,
-        blockedDomains
-      );
-
-      if (matchingBlockedDomain) {
-        console.log('Domain matches blocked domain:', matchingBlockedDomain);
-
-        // Check if there's an active bypass
-        const hasValidBypass =
-          (await hasActiveBypass(matchingBlockedDomain)) ||
-          (await hasActiveBypass(requestDomain));
-
-        if (!hasValidBypass) {
-          console.log(
-            'No valid bypass found, redirecting to confirmation page'
-          );
-
-          // Get extension ID for redirect URL
-          const extensionId = chrome.runtime.id;
-          const encodedUrl = encodeURIComponent(details.url);
-          const redirectUrl = `chrome-extension://${extensionId}/src/confirm/confirm.html?url=${encodedUrl}`;
-
-          return {
-            redirectUrl: redirectUrl
-          };
-        } else {
-          console.log('Active bypass found, allowing request');
-        }
-      }
-
-      return { cancel: false };
-    } catch (error) {
-      console.error('Error in webRequest handler:', error);
-      return { cancel: false };
+chrome.webNavigation.onBeforeNavigate.addListener(async (details) => {
+  try {
+    // Only process main frame navigation
+    if (details.frameId !== 0) {
+      return;
     }
-  },
-  { urls: ['<all_urls>'], types: ['main_frame'] },
-  ['blocking']
-);
+
+    const url = new URL(details.url);
+    const requestDomain = normalizeDomain(url.hostname);
+
+    console.log('Checking navigation for domain:', requestDomain);
+
+    // Get blocked domains
+    const [blockedDomains] = await Promise.all([getBlockedDomains()]);
+
+    // Check if domain matches any blocked domain
+    const matchingBlockedDomain = findMatchingBlockedDomain(
+      requestDomain,
+      blockedDomains
+    );
+
+    if (matchingBlockedDomain) {
+      console.log('Domain matches blocked domain:', matchingBlockedDomain);
+
+      // Check if there's an active bypass
+      const hasValidBypass =
+        (await hasActiveBypass(matchingBlockedDomain)) ||
+        (await hasActiveBypass(requestDomain));
+
+      if (!hasValidBypass) {
+        console.log(
+          'No valid bypass found, redirecting to confirmation page'
+        );
+
+        // Get extension ID for redirect URL
+        const extensionId = chrome.runtime.id;
+        const encodedUrl = encodeURIComponent(details.url);
+        const redirectUrl = `chrome-extension://${extensionId}/src/confirm/confirm.html?url=${encodedUrl}`;
+
+        // Redirect the tab to the confirmation page
+        chrome.tabs.update(details.tabId, { url: redirectUrl });
+      } else {
+        console.log('Active bypass found, allowing navigation');
+      }
+    }
+  } catch (error) {
+    console.error('Error in webNavigation handler:', error);
+  }
+});
 
 /**
  * Handle context menu clicks
