@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Site Blocked - Confirmation</title>
+    <link rel="stylesheet" href="confirm.css" />
+  </head>
+  <body>
+    <div class="container">
+      <div class="warning-icon">
+        <svg
+          width="80"
+          height="80"
+          viewBox="0 0 24 24"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            d="M12 2L1 21H23L12 2Z"
+            stroke="#f59e0b"
+            stroke-width="2"
+            stroke-linejoin="round"
+          />
+          <path
+            d="M12 9V13"
+            stroke="#f59e0b"
+            stroke-width="2"
+            stroke-linecap="round"
+          />
+          <circle cx="12" cy="17" r="1" fill="#f59e0b" />
+        </svg>
+      </div>
+
+      <h1 class="main-message">Hold up! This site is blocked.</h1>
+
+      <div class="blocked-url">
+        <p>You tried to visit:</p>
+        <div class="url-display" id="urlDisplay">Loading...</div>
+      </div>
+
+      <div class="actions">
+        <div class="primary-actions">
+          <button id="reallyGoBtn" class="btn btn-primary">Really Go</button>
+          <button id="closeTabBtn" class="btn btn-secondary">Close Tab</button>
+        </div>
+
+        <div class="bypass-section">
+          <div class="bypass-controls">
+            <select id="bypassDuration" class="dropdown">
+              <option value="5">5 minutes</option>
+              <option value="10">10 minutes</option>
+              <option value="15">15 minutes</option>
+            </select>
+            <button id="bypassBtn" class="btn btn-tertiary">Bypass</button>
+          </div>
+          <p class="bypass-note">Temporarily allow access to this site</p>
+        </div>
+      </div>
+    </div>
+
+    <script src="confirm.js"></script>
+  </body>
+</html>

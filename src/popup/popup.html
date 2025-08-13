@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Site Blocker</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Site Blocker</h1>
+
+      <!-- Block Current Site Section -->
+      <section class="current-site">
+        <button id="blockCurrentSite" class="btn btn-primary">
+          Block Current Site
+        </button>
+        <div id="currentSiteInfo" class="site-info"></div>
+      </section>
+
+      <!-- Bypass Status Section -->
+      <section id="bypassStatus" class="bypass-status" style="display: none">
+        <div class="bypass-info">
+          <span class="bypass-icon">🕒</span>
+          <div class="bypass-text">
+            <strong>Bypass Active</strong>
+            <div id="bypassTimeRemaining" class="bypass-time"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Manual Domain Input Section -->
+      <section class="manual-input">
+        <div class="input-group">
+          <input
+            type="text"
+            id="domainInput"
+            placeholder="Enter domain to block (e.g., example.com)"
+            maxlength="255"
+          />
+          <button id="addDomainBtn" class="btn btn-secondary">Add</button>
+        </div>
+      </section>
+
+      <!-- Blocked Domains List -->
+      <section class="blocked-domains">
+        <h2>Blocked Domains</h2>
+        <ul id="domainsList" class="domains-list">
+          <!-- Domains will be populated dynamically -->
+        </ul>
+        <div id="emptyState" class="empty-state" style="display: none">
+          <p>No domains blocked yet.</p>
+        </div>
+      </section>
+
+      <!-- Subdomain Coverage Hint -->
+      <section class="info-hint">
+        <div class="hint">
+          <span class="hint-icon">ℹ️</span>
+          <p>
+            Blocking a domain (e.g., <strong>example.com</strong>) will also
+            block all its subdomains (e.g., <strong>www.example.com</strong>,
+            <strong>blog.example.com</strong>).
+          </p>
+        </div>
+      </section>
+
+      <!-- Loading indicator -->
+      <div id="loading" class="loading" style="display: none">
+        <div class="spinner"></div>
+        <span>Loading...</span>
+      </div>
+
+      <!-- Error message -->
+      <div id="errorMessage" class="error-message" style="display: none">
+        <span class="error-icon">⚠️</span>
+        <span class="error-text"></span>
+      </div>
+    </div>
+
+    <script type="module" src="popup.js"></script>
+  </body>
+</html>
