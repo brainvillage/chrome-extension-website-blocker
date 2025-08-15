@@ -1,7 +1,6 @@
 // Wait for DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function () {
   const urlDisplay = document.getElementById('urlDisplay');
-  const reallyGoBtn = document.getElementById('reallyGoBtn');
   const closeTabBtn = document.getElementById('closeTabBtn');
   const bypassBtn = document.getElementById('bypassBtn');
   const bypassDuration = document.getElementById('bypassDuration');
@@ -50,27 +49,7 @@ document.addEventListener('DOMContentLoaded', function () {
     originalUrl = getOriginalUrl();
     urlDisplay.textContent = originalUrl;
     urlDisplay.classList.remove('loading');
-
-    // If we couldn't get a valid URL, disable the "Really Go" button
-    if (originalUrl === 'Unknown URL' || !originalUrl.startsWith('http')) {
-      reallyGoBtn.disabled = true;
-      reallyGoBtn.textContent = 'Invalid URL';
-      reallyGoBtn.style.opacity = '0.5';
-      reallyGoBtn.style.cursor = 'not-allowed';
-    }
   }
-
-  // Handle "Really Go" button click
-  reallyGoBtn.addEventListener('click', function () {
-    if (
-      originalUrl &&
-      originalUrl !== 'Unknown URL' &&
-      originalUrl.startsWith('http')
-    ) {
-      // Redirect to the original URL
-      window.location.href = originalUrl;
-    }
-  });
 
   // Handle "Close Tab" button click
   closeTabBtn.addEventListener('click', function () {
@@ -175,11 +154,6 @@ document.addEventListener('DOMContentLoaded', function () {
     // Escape key to close tab
     if (event.key === 'Escape') {
       closeTabBtn.click();
-    }
-
-    // Enter key to "Really Go"
-    if (event.key === 'Enter' && !reallyGoBtn.disabled) {
-      reallyGoBtn.click();
     }
   });
 
